@@ -20,8 +20,17 @@
 
     <tr v-for="(task,index) in tasks" :key="index">
 
-      <td >{{ task.name }}</td>
-      <td style="width :20%"> <span  class="spa">{{ task.status }}</span></td>
+      <td :class="{'finished' : task.status ==='finished'}">{{ task.name }}</td>
+       <td style="width :20%"> 
+          <span  @click="changeStatus(index)" class="spa"
+          :class="{'text-danger' : task.status ==='to-do',
+                    'text-warning' : task.status ==='in-progress', 
+                    'text-success' : task.status ==='finished', 
+          }"
+          >
+              {{ task.status }}
+          </span>
+       </td>
       <td>
         <div @click="taskEdit(index)" class="text-center">
        <span> <fa icon="pen"/> </span>
@@ -115,7 +124,17 @@ export default {
       console.log(this.editTaskIndex)
     },
 
-   
+   changeStatus(index){
+      
+      let newIndex = this.statusList.indexOf(this.tasks[index].status)
+      if(++newIndex > 2)
+      {
+        newIndex = 0 
+      }
+      console.log(this.statusList[newIndex])
+      this.tasks[index].status = this.statusList[newIndex]
+
+    }
   }
 
 }
@@ -125,6 +144,10 @@ export default {
 
 .spa{
   cursor: pointer;
+}
+
+.finished{
+  text-decoration: line-through;
 }
 
 </style>
