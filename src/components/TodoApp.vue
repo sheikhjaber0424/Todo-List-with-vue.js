@@ -21,7 +21,7 @@
     <tr v-for="(task,index) in tasks" :key="index">
 
       <td >{{ task.name }}</td>
-      <td>{{ task.status }}</td>
+      <td style="width :20%"> <span  class="spa">{{ task.status }}</span></td>
       <td>
         <div @click="taskEdit(index)" class="text-center">
        <span> <fa icon="pen"/> </span>
@@ -54,6 +54,7 @@ export default {
 
       addTask: '',
       editTaskIndex: null,
+      statusList : ['to-do','in-prgress','finished'],
       tasks: [
         {
             name :'Cycling',
@@ -76,7 +77,7 @@ export default {
 
    console.log(this.editTaskIndex)
 
-   
+   if(this.editTaskIndex ===null){
       if(this.addTask.length!=0 )
       {
         this.tasks.push({
@@ -86,9 +87,16 @@ export default {
         })
         console.log('taskadded')
       }
-  
+   }
       
-     
+      else 
+      {
+        this.tasks[this.editTaskIndex].name = this.addTask
+        this.editTaskIndex= null
+        console.log('entered else')
+       
+      }
+
     
     
     
@@ -100,12 +108,23 @@ export default {
       this.tasks.splice(index,1)
     },
 
+    taskEdit(index){
+      this.addTask = this.tasks[index].name,
+      
+      this.editTaskIndex = index
+      console.log(this.editTaskIndex)
+    },
 
+   
   }
 
 }
 </script>
 
 <style>
+
+.spa{
+  cursor: pointer;
+}
 
 </style>
